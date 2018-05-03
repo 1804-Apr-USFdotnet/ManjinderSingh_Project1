@@ -109,5 +109,83 @@ namespace ProjectZero.Libraries.Classes
 
             return reviews;
         }
+
+        // Add a new Restaurant to the database
+        public void AddRestaurant(Restaurant restaurant)
+        {
+            try
+            {
+                ah.AddRestaurant(restaurant);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        // Update a Restaurant's information
+        public void UpdateRestaurant(Restaurant restaurant)
+        {
+            try
+            {
+                ah.UpdateRestaurant(ah.LibraryToData(restaurant));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        // Delete a Restaurant from the database
+        public void DeleteRestaurant(Restaurant restaurant)
+        {
+            try
+            {
+                ah.DeleteRestaurant(ah.LibraryToData(restaurant));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        // Add a new Review for a selected restaurant
+        public void AddReview(int restID, Review review)
+        {
+            try
+            {
+                ah.AddReview(ah.LibraryReviewToDataReview(review), restID);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        // Update a selected review for a selected restaurant
+        public void UpdateReview(int restID, Review review)
+        {
+            try
+            {
+                ah.UpdateReview(ah.LibraryReviewToDataReview(review), restID);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
+
+        // Delete a selected restaurant's review
+        public void DeleteReview(int restID, int revID)
+        {
+            try
+            {
+                ah.DeleteRestaurantReview(revID, restID);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+        }
     }
 }
