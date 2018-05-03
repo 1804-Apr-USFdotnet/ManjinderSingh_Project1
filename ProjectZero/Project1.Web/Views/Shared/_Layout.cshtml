@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <!-- Added the header to contain the Website Banner -->
+    <header style="padding:40px; background-color:aqua; text-align:center" >
+        <h1 style="text-font:80px; color:azure">Restaurant Review</h1>
+    </header>
+
+    <header>
+        <table>
+            <thead>
+                @Html.ActionLink("Home", "Index", "Home")
+                @Html.ActionLink("About Us", "AboutUs", "Home")
+                @Html.ActionLink("Contact Us", "ContactUs", "Home")
+            </thead>
+        </table>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        Footer goes here
+    </footer>
+</body>
+</html>

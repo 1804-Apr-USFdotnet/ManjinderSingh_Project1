@@ -108,5 +108,17 @@ namespace ProjectZero.Libraries.Classes
 
             return restString.ToString();
         }
+
+        // Will only return a string containing the Restaurant's address
+        public string FullAddress()
+        {
+            StringBuilder restString = new StringBuilder();
+            restString.Append(Address + " ");
+            restString.Append(City + " ");
+            restString.Append(State + " ");
+            restString.Append(Zipcode.ToString() + " ");
+
+            return restString.ToString();
+        }
     }
 }
