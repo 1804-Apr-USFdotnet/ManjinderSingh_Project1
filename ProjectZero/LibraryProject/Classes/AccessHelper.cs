@@ -31,6 +31,25 @@ namespace DataAccess
             return rests;
         }
 
+        // Return the specified restaurant
+        public PLC.Restaurant GetRestaurantByID(int restID)
+        {
+            Restaurant rest = new Restaurant();
+            try
+            {
+                using (db = new RestaurantDBEntities())
+                {
+                    rest = db.Restaurants.Where(x => x.RestaurantID == restID).FirstOrDefault();
+                    return DataToLibrary(rest);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+            return DataToLibrary(rest);
+        }
+
         // Return a list of all the reviews for the specified restaurant
         public List<PLC.Review> GetAllOfRestaurantsReviews(int restaurantID)
         {
@@ -109,7 +128,7 @@ namespace DataAccess
                     if (restaurant != null)
                     {
                         // Remove the restaurant from the database
-                        db.Restaurants.Remove(restaurant);
+                        db.Restaurants.Remove(db.Restaurants.Find(restaurant.RestaurantID));
 
                         // Remove all of the it's reviews from the database
                         var reviewsToDelete = db.Reviews1.Where(x => x.RestaurantID == restaurant.RestaurantID).ToList();

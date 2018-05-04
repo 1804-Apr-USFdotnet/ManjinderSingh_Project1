@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ProjectZero.Libraries.Classes.Review>
+
+<p style="text-align:center">
+    <a href='@Url.Action("Create", "Review", Model.First().RestaurantID)'>Create New Review</a>
+</p>
+<div>
+    <table style="border:2px solid; border-collapse:collapse" align="center">
+        <thead>
+            <tr>
+                <th style="text-align:center">Author </th>
+                <th style="text-align:center">Rating</th>
+                <th style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model)
+            {
+                <tr style="border:2px solid black">
+                    <td style="border: 2px solid black; text-align:center;">@review.Author</td>
+                    <td style="border: 2px solid black; text-align:center;">@review.Rating.ToString()</td> <!-- The rating should be displayed as decimal value instead of a double -->
+                    <td>
+                        <a href='@Url.Action("Edit", "Review", review))'>
+                            <img src="~/Content/Images/Edit.png" />
+                        </a>
+                    </td>
+                    <td>
+                        <a href='@Url.Action("Delete", "Review", review)'>
+                            <img src="~/Content/Images/Trash.png" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

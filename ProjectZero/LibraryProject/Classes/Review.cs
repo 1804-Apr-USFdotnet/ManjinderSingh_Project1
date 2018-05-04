@@ -12,10 +12,12 @@ namespace ProjectZero.Libraries.Classes
         private int _id;            // Review ID
         private string _author;     // Author of the review
         private int _rating;    // Given rating
+        private int _restID; // Restaurant the review is tied to
 
         public int ReviewID { get { return _id; } set { _id = value; } }
         public string Author { get { return _author; } set { _author = value; } }
         public int Rating { get { return _rating; } set { _rating = value; } }
+        public int RestaurantID { get { return _restID; } set { _restID = value; } }
 
         public Review()
         {

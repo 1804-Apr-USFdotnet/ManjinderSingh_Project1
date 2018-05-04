@@ -1,0 +1,47 @@
+﻿@model ProjectZero.Libraries.Classes.Restaurant
+
+@{ 
+    if (ViewBag.Action.Contains("Edit"))
+    {
+        ViewBag.ActionMethod = "Edit";
+    }
+    else
+    {
+        ViewBag.ActionMethod = "Create";
+    }
+}
+
+<div>
+    @ViewBag.Action
+</div>
+<div>
+    @using (Html.BeginForm())
+    {
+    <pre>
+        @Html.LabelFor(Model => Model.Name)
+        @Html.EditorFor(Model => Model.Name, new { htmlattributes = new { placeholder = "Enter Name", required = "required" } })@Html.ValidationMessageFor(Model => Model.Name)
+
+        @Html.LabelFor(Model => Model.Address)
+        @Html.EditorFor(Model => Model.Address, new { htmlattributes = new { placeholder = "Enter Address", required = "required" } })@Html.ValidationMessageFor(Model => Model.Address)
+
+        @Html.LabelFor(Model => Model.City)
+        @Html.EditorFor(Model => Model.City, new { htmlattributes = new { placeholder = "Enter City", required = "required" } })@Html.ValidationMessageFor(Model => Model.City)
+
+        @Html.LabelFor(Model => Model.State)
+        @Html.EditorFor(Model => Model.State, new { htmlattributes = new { placeholder = "Enter State", required = "required" } })@Html.ValidationMessageFor(Model => Model.State)
+
+        @Html.LabelFor(Model => Model.Zipcode)
+        @Html.EditorFor(Model => Model.Zipcode, new { htmlattributes = new { type = "number", min = "0" , placeholder = "Enter Zipcode", pattern = "[1-9][0-9]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Zipcode)
+
+        @if (@ViewBag.ActionMethod == "Edit")
+        {
+            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, new { rest = Model, id = Model.RestaurantID})'" />
+        }
+        else
+        {
+            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, Model)'" />
+        }
+</pre>
+    }
+</div>
+

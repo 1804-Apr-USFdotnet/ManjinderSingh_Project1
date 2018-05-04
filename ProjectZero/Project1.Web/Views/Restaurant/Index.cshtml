@@ -1,41 +1,9 @@
 ﻿@model IEnumerable<ProjectZero.Libraries.Classes.Restaurant>
 
-<!DOCTYPE html>
+@{ 
+    ViewBag.Title = "Restaurant Reviews";
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <table style="border:2px solid; border-collapse:collapse">
-        <thead>
-            <tr>
-                <th>Name </th>
-                <th>Address </th>
-                <th>Rating</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rest in Model)
-            {
-            <tr style="border:2px solid black">
-                <td style="border: 2px solid black">@rest.Name</td>
-                <td style="border: 2px solid black">@rest.FullAddress()</td>
-                <td style="border: 2px solid black">@rest.Rating.ToString("N2")</td> <!-- The rating should be displayed as decimal value instead of a double -->
-                <td>@Html.ActionLink("Reviews", "Reviews", new { id = 1 })</td>
-                <td>
-                    <a href='@Url.Action("Edit", "Restaurant")'>
-                        <img src="~/Content/Images/Edit.png" />
-                </td>
-                <td>
-                    <a href='@Url.Action("Delete", "Restaurant")'>
-                        <img src="~/Content/Images/Trash.png" />
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+<header style="text-align:center">
+    @Html.Partial("_ItemTable", Model)
+</header>

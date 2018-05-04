@@ -120,5 +120,30 @@ namespace ProjectZero.Libraries.Classes
 
             return restString.ToString();
         }
+
+        public bool Equals(Restaurant other)
+        {
+            if (Name != other.Name)
+            {
+                return false;
+            }
+            else if (Address != other.Address)
+            {
+                return false;
+            }
+            else if (City != other.City)
+            {
+                return false;
+            }
+            else if (State != other.State)
+            {
+                return false;
+            }
+            else if (Zipcode != other.Zipcode)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

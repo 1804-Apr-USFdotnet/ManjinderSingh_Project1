@@ -31,14 +31,25 @@ namespace Project1.Web.Controllers
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
+                return View("Error", ex);
             }
-            return View();
         }
 
         // GET: Restaurant/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(PLC.Restaurant rest)
         {
-            return View();
+            if (func == null)
+                func = new PLC.Functionality();
+            // Grab all of the selected Restaurant's reviews
+            var reviews = func.GetReviews(rest.RestaurantID);
+            
+            // Add the RestaurantID to each of the review objects for future reference
+            foreach (var review in reviews)
+            {
+                review.RestaurantID = rest.RestaurantID;
+            }
+
+            return View(reviews);
         }
 
         // GET: Restaurant/Create
@@ -49,46 +60,75 @@ namespace Project1.Web.Controllers
 
         // POST: Restaurant/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PLC.Restaurant Model)
         {
             try
             {
-                // TODO: Add insert logic here
+                // Add the Restaurant into the database
+
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                func.AddRestaurant(Model);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
         }
 
         // GET: Restaurant/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(PLC.Restaurant rest)
         {
-            return View();
+            return View(rest);
         }
 
         // POST: Restaurant/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(PLC.Restaurant rest, int id)
         {
             try
             {
-                // TODO: Add update logic here
+                if (func == null)
+                    func = new PLC.Functionality();
+                // Make that an Edit did take place
+                var original = func.GetRestaurant(id);
+                if (original.Equals(rest))
+                {
+                    // It's the same so just go back to the Index without updating the database
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // The Restaurant's details have been changed so we need to update the database
+                    func.UpdateRestaurant(rest);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
         }
 
         // GET: Restaurant/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(PLC.Restaurant rest)
         {
-            return View();
+            try
+            {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                func.DeleteRestaurant(rest);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Restaurant/Delete/5
@@ -101,9 +141,9 @@ namespace Project1.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Error", ex);
             }
         }
     }

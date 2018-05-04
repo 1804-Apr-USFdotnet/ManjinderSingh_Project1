@@ -50,6 +50,32 @@ namespace ProjectZero.Libraries.Classes
         {
             return SearchRestaurantsByName(restaurantName)[0];
         }
+        
+        // Searches and returns the restaurant with the given ID
+        public Restaurant GetRestaurant(int restID)
+        {
+            return ah.GetRestaurantByID(restID);
+        }
+
+        // Get all of the selected Restaurant's reviews
+        public List<Review> GetReviews(int restID)
+        {
+            List<Review> reviews = new List<Review>();
+            try
+            {
+                reviews = ah.GetAllOfRestaurantsReviews(restID);
+            }
+            catch (NotImplementedException ne)
+            {
+                logger.Error(ne.Message);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+
+            return reviews;
+        }
 
         // Returns a string output of the selected Restaurants Details
         public string RestaurantDetails(string restaurantName)

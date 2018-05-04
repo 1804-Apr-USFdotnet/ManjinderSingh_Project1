@@ -7,18 +7,11 @@
 </head>
 <body>
     <!-- Added the header to contain the Website Banner -->
-    <header style="padding:40px; background-color:aqua; text-align:center" >
+    <header style="padding:20px; background-color:aqua; text-align:center">
         <h1 style="text-font:80px; color:azure">Restaurant Review</h1>
-    </header>
-
-    <header>
-        <table>
-            <thead>
-                @Html.ActionLink("Home", "Index", "Home")
-                @Html.ActionLink("About Us", "AboutUs", "Home")
-                @Html.ActionLink("Contact Us", "ContactUs", "Home")
-            </thead>
-        </table>
+        <h3 style="background-color:aqua; text-align:right;">
+            @Html.Partial("_NavBar")
+        </h3>
     </header>
     <div>
         @RenderBody()

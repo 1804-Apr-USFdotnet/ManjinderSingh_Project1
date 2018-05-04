@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ProjectZero.Libraries.Classes.Restaurant>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table style="border:2px solid; border-collapse:collapse" align="center">
+    <thead>
+        <tr>
+            <th style="border: 2px solid black; text-align:center">Name </th>
+            <th style="border: 2px solid black; text-align:center">Address </th>
+            <th style="border: 2px solid black; text-align:center">Rating</th>
+            <th style="border: 2px solid black; text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rest in Model)
+        {
+            <tr style="border:2px solid black">
+                <td style="border: 2px solid black; text-align:center;">@rest.Name</td>
+                <td style="border: 2px solid black; text-align:center;">@rest.FullAddress()</td>
+                <td style="border: 2px solid black; text-align:center;">@rest.Rating.ToString("N2")</td> <!-- The rating should be displayed as decimal value instead of a double -->
+                <td>
+                    <a href='@Url.Action("Details", "Restaurant", rest)'>
+                        <img style="width:24px" src="~/Content/Images/Review.png" />
+                    </a>
+                    <a href='@Url.Action("Edit", "Restaurant", rest)'>
+                        <img style="width:24px" src="~/Content/Images/Edit.png" />
+                    </a>
+                    <a href='@Url.Action("Delete", "Restaurant", rest)'>
+                        <img style="width:24px" src="~/Content/Images/Trash.png" />
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
