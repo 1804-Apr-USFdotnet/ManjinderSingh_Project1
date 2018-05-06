@@ -16,7 +16,7 @@ namespace Project1.Web.Controllers
         // GET: Restaurants
         public ActionResult Index()
         {
-            List<PLC.Restaurant> restaurants = new List<PLC.Restaurant>(); ;
+            List<PLC.Restaurant> restaurants = new List<PLC.Restaurant>();
             try
             {
                 if (func == null)
