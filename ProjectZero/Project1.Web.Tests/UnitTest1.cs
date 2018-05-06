@@ -18,7 +18,7 @@ namespace Project1.Web.Tests
 
             var action = rc.Index() as ViewResult;
 
-            string actual = action.ViewName;
+            string actual = action.ViewBag.Title;
 
             Assert.AreEqual(expected, actual);
         }
