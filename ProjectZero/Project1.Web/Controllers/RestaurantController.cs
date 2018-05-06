@@ -49,6 +49,9 @@ namespace Project1.Web.Controllers
                 review.RestaurantID = rest.RestaurantID;
             }
 
+            if (reviews.Count == 0)
+                reviews.Add(new PLC.Review() { RestaurantID = rest.RestaurantID });
+
             return View(reviews);
         }
 
@@ -80,21 +83,33 @@ namespace Project1.Web.Controllers
         }
 
         // GET: Restaurant/Edit/5
-        public ActionResult Edit(PLC.Restaurant rest)
+        public ActionResult Edit(int restID)
         {
+            PLC.Restaurant rest = new PLC.Restaurant();
+            try
+            {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                rest = func.GetRestaurant(restID);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
             return View(rest);
         }
 
         // POST: Restaurant/Edit/5
         [HttpPost]
-        public ActionResult Edit(PLC.Restaurant rest, int id)
+        public ActionResult Edit(PLC.Restaurant rest, int restID)
         {
             try
             {
                 if (func == null)
                     func = new PLC.Functionality();
                 // Make that an Edit did take place
-                var original = func.GetRestaurant(id);
+                var original = func.GetRestaurant(restID);
                 if (original.Equals(rest))
                 {
                     // It's the same so just go back to the Index without updating the database
@@ -103,6 +118,7 @@ namespace Project1.Web.Controllers
                 else
                 {
                     // The Restaurant's details have been changed so we need to update the database
+                    rest.RestaurantID = restID; // Making sure the ID is the right one
                     func.UpdateRestaurant(rest);
 
                     return RedirectToAction("Index");
@@ -145,6 +161,76 @@ namespace Project1.Web.Controllers
             {
                 return View("Error", ex);
             }
+        }
+
+        [HttpPost]
+        public ActionResult Search(FormCollection collection)
+        {
+            List<PLC.Restaurant> restaurants = new List<PLC.Restaurant>();
+
+            try
+            {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                restaurants = func.SearchRestaurantsByName(collection[0]);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+
+            return View("Index", restaurants);
+        }
+
+        public ActionResult TopThree()
+        {
+            List<PLC.Restaurant> restaurants = new List<PLC.Restaurant>();
+            try
+            {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                restaurants = func.TopThreeRestaurants();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+
+            return View("Index", restaurants);
+        }
+
+        public ActionResult Sort(bool asc)
+        {
+            List<PLC.Restaurant> restaurants = new List<PLC.Restaurant>();
+            try
+            {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                restaurants = func.AllRestaurants();
+                restaurants.Sort();
+                if (!asc)
+                {
+                    restaurants.Reverse();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
+            return View("Index", restaurants);
+        }
+
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public ActionResult ContactUs()
+        {
+            return View();
         }
     }
 }

@@ -18,7 +18,7 @@
         @Html.LabelFor(Model => Model.Rating)
         @Html.EditorFor(Model => Model.Rating, new { htmlattributes = new { placeholder = "Rate Restaurant", required = "required", min = 1, max = 5 } })@Html.ValidationMessageFor(Model => Model.Rating)
 
-        <input type="submit" value="Submit Review" onclick="location.href='@Url.Action("Create", Model)'" />
+        <input type="submit" value="Submit Review" onclick="location.href='@Url.Action("Create", new { review = Model, restID = Model.RestaurantID})'" />
 </pre>
     }
 </div>

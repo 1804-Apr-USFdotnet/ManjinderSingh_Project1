@@ -58,11 +58,12 @@ namespace DataAccess
             using (db = new RestaurantDBEntities())
             {
                 var rvs = db.Reviews.ToList();
-                foreach (var record in db.Reviews1.ToList())
+                var records = db.Reviews1.ToList();
+                foreach (var record in records)
                 {
                     if (record.RestaurantID == restaurantID)
                     {
-                        reviews.Add(ReviewDataToLibraryReview(rvs.ElementAt((int)record.ReviewID - 1)));
+                        reviews.Add(ReviewDataToLibraryReview(rvs.Where(x => x.ReviewID == record.ReviewID).FirstOrDefault()));
                     }
                 }
             }
@@ -171,7 +172,11 @@ namespace DataAccess
                     // Add the Review to the Review table
                     db.Reviews.Add(review);
 
-                    var id = db.Reviews.Find(db.Reviews.Count() - 1).ReviewID;
+                    // Save the changes to the database
+                    db.SaveChanges();
+
+                    var revs = db.Reviews.ToList();
+                    var id = revs.Last().ReviewID;
                     // Add the reference to the Reviews table
                     var r = new Review1()
                     {
@@ -180,11 +185,11 @@ namespace DataAccess
                     };
                     db.Reviews1.Add(r);
 
+                    // Save the changes to the database
+                    db.SaveChanges();
+
                     // Update the Restaurant's average rating
                     UpdateRestaurantAverageRating(restID);
-
-                    // Save the changes
-                    db.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -208,11 +213,11 @@ namespace DataAccess
                         r.Rating = review.Rating;
                     }
 
-                    // Update the Restaurant's average rating
-                    UpdateRestaurantAverageRating(restID);
-
                     // Save the changes to the database
                     db.SaveChanges();
+
+                    // Update the Restaurant's average rating
+                    UpdateRestaurantAverageRating(restID);
                 }
             }
             catch (Exception ex)
@@ -233,13 +238,14 @@ namespace DataAccess
 
                     // Delete the review from the Reviews table
                     var rev = db.Reviews1.Where(x => x.RestaurantID == restID && x.ReviewID == revID).FirstOrDefault();
-                    db.Reviews1.Remove(rev);
-
-                    // Update the restaurant's average rating
-                    UpdateRestaurantAverageRating(restID);
+                    if (rev != null)
+                        db.Reviews1.Remove(db.Reviews1.Find(rev.ID));
 
                     // Save the changes to the database
                     db.SaveChanges();
+
+                    // Update the restaurant's average rating
+                    UpdateRestaurantAverageRating(restID);
                 }
             }
             catch (Exception ex)

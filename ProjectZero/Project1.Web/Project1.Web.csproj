@@ -138,6 +138,8 @@
     <Content Include="Views\Restaurant\Error.cshtml" />
     <Content Include="Views\Review\Create.cshtml" />
     <Content Include="Views\Review\Edit.cshtml" />
+    <Content Include="Views\Restaurant\AboutUs.cshtml" />
+    <Content Include="Views\Restaurant\ContactUs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

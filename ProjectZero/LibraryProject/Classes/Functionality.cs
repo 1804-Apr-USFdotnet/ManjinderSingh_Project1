@@ -92,7 +92,7 @@ namespace ProjectZero.Libraries.Classes
             List<Restaurant> r = new List<Restaurant>();
             foreach (var restaurant in restaurants)
             {
-                if (restaurant.Name.Contains(searchString))
+                if (restaurant.Name.ToLower().Contains(searchString.ToLower()))
                 {
                     r.Add(restaurant);
                 }

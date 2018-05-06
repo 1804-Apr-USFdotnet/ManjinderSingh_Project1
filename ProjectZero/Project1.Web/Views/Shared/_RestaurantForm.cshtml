@@ -35,7 +35,7 @@
 
         @if (@ViewBag.ActionMethod == "Edit")
         {
-            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, new { rest = Model, id = Model.RestaurantID})'" />
+            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, new { rest = Model, restID = Model.RestaurantID})'" />
         }
         else
         {

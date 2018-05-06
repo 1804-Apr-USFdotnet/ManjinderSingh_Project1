@@ -1,7 +1,10 @@
-﻿@model IEnumerable<ProjectZero.Libraries.Classes.Restaurant>
+﻿@model List<ProjectZero.Libraries.Classes.Restaurant>
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <pre>
+         @Html.ActionLink("Create New", "Create")  @Html.ActionLink("Top 3", "TopThree")  @Html.ActionLink("Show All", "Index") @Html.ActionLink("All Ascending", "Sort", new { asc = true }) @Html.ActionLink("All Descending", "Sort", new { asc = false})
+</pre>
 </p>
 
 <table style="border:2px solid; border-collapse:collapse" align="center">
@@ -24,7 +27,7 @@
                     <a href='@Url.Action("Details", "Restaurant", rest)'>
                         <img style="width:24px" src="~/Content/Images/Review.png" />
                     </a>
-                    <a href='@Url.Action("Edit", "Restaurant", rest)'>
+                    <a href='@Url.Action("Edit", "Restaurant", new { restID = rest.RestaurantID})'>
                         <img style="width:24px" src="~/Content/Images/Edit.png" />
                     </a>
                     <a href='@Url.Action("Delete", "Restaurant", rest)'>

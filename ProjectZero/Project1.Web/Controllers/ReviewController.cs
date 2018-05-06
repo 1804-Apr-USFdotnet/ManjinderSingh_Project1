@@ -31,13 +31,18 @@ namespace Project1.Web.Controllers
 
         // POST: Review/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PLC.Review review, int restID)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (func == null)
+                    func = new PLC.Functionality();
 
-                return RedirectToAction("Index");
+                func.AddReview(restID, review);
+
+                var rest = func.GetRestaurant(restID);
+
+                return RedirectToAction("Details", "Restaurant", rest);
             }
             catch
             {

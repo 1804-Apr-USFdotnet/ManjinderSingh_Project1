@@ -5,5 +5,15 @@
 }
 
 <header style="text-align:center">
+    @using (Html.BeginForm("Search", "Restaurant", FormMethod.Post))
+    {
+        <pre>
+            <h3>Search</h3>
+            @Html.TextBox("search") <input type="submit" value="Go"/>
+</pre>
+    }
+</header>
+
+<header style="text-align:center">
     @Html.Partial("_ItemTable", Model)
 </header>
