@@ -9,6 +9,16 @@
     {
         ViewBag.ActionMethod = "Create";
     }
+
+    List<string> states = new List<string>()
+            {
+                "Select State","Alaska","Alabama","Arkansas","Arizona","California","Colorado","Connecticut","Delaware",
+                "Florida","Georgia","Hawaii","Iowa","Idaho","Illinois","Indiana","Kansas","Kentucky","Louisiana",
+                "Massachusetts","Maryland","Maine","Michigan","Minnesota","Missouri","Mississippi","Montana",
+                "North Carolina","North Dakota","Nebraska","New Hampshire","New Jersey","New Mexico","Nevada",
+                "New York","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota",
+                "Tennessee","Texas","Utah","Virginia","Vermont","Washington","Wisconsin","West Virginia","Wyoming"
+            };
 }
 
 <div>
@@ -22,13 +32,13 @@
         @Html.EditorFor(Model => Model.Name, new { htmlattributes = new { placeholder = "Enter Name", required = "required" } })@Html.ValidationMessageFor(Model => Model.Name)
 
         @Html.LabelFor(Model => Model.Address)
-        @Html.EditorFor(Model => Model.Address, new { htmlattributes = new { placeholder = "Enter Address", pattern = "[1-9][0-9]+[A-Za-z ]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Address)
+        @Html.EditorFor(Model => Model.Address, new { htmlattributes = new { placeholder = "Enter Address", pattern = "[1-9][0-9]+[ ][A-Za-z.' ]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Address)
 
         @Html.LabelFor(Model => Model.City)
         @Html.EditorFor(Model => Model.City, new { htmlattributes = new { placeholder = "Enter City", pattern = "[A-Za-z]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.City)
 
         @Html.LabelFor(Model => Model.State)
-        @Html.EditorFor(Model => Model.State, new { htmlattributes = new { placeholder = "Enter State", pattern = "[A-Za-z]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.State)
+        @Html.DropDownListFor(Model => Model.State, new SelectList(states), new { htmlattributes = new { required = "required" } })@Html.ValidationMessageFor(Model => Model.State)
 
         @Html.LabelFor(Model => Model.Zipcode)
         @Html.EditorFor(Model => Model.Zipcode, new { htmlattributes = new { type = "number", min = "0", maxlength = "5", placeholder = "Enter Zipcode", pattern = "[1-9][0-9]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Zipcode)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
 using PLC = ProjectZero.Libraries.Classes;
 using NLog;
 
@@ -38,21 +39,26 @@ namespace Project1.Web.Controllers
         // GET: Restaurant/Details/5
         public ActionResult Details(PLC.Restaurant rest)
         {
-            if (func == null)
-                func = new PLC.Functionality();
-            // Grab all of the selected Restaurant's reviews
-            var reviews = func.GetReviews(rest.RestaurantID);
-            
-            // Add the RestaurantID to each of the review objects for future reference
-            foreach (var review in reviews)
+            if (isValid(rest))
             {
-                review.RestaurantID = rest.RestaurantID;
+                if (func == null)
+                    func = new PLC.Functionality();
+                // Grab all of the selected Restaurant's reviews
+                var reviews = func.GetReviews(rest.RestaurantID);
+
+                // Add the RestaurantID to each of the review objects for future reference
+                foreach (var review in reviews)
+                {
+                    review.RestaurantID = rest.RestaurantID;
+                }
+
+                if (reviews.Count == 0)
+                    reviews.Add(new PLC.Review() { RestaurantID = rest.RestaurantID });
+
+                return View(reviews);
             }
-
-            if (reviews.Count == 0)
-                reviews.Add(new PLC.Review() { RestaurantID = rest.RestaurantID });
-
-            return View(reviews);
+            else
+                return RedirectToAction("Index");
         }
 
         // GET: Restaurant/Create
@@ -67,12 +73,14 @@ namespace Project1.Web.Controllers
         {
             try
             {
-                // Add the Restaurant into the database
+                if (isValid(Model))
+                {
+                    // Add the Restaurant into the database
+                    if (func == null)
+                        func = new PLC.Functionality();
 
-                if (func == null)
-                    func = new PLC.Functionality();
-
-                func.AddRestaurant(Model);
+                    func.AddRestaurant(Model);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -106,23 +114,28 @@ namespace Project1.Web.Controllers
         {
             try
             {
-                if (func == null)
-                    func = new PLC.Functionality();
-                // Make that an Edit did take place
-                var original = func.GetRestaurant(restID);
-                if (original.Equals(rest))
+                if (isValid(rest))
                 {
-                    // It's the same so just go back to the Index without updating the database
-                    return RedirectToAction("Index");
+                    if (func == null)
+                        func = new PLC.Functionality();
+                    // Make that an Edit did take place
+                    var original = func.GetRestaurant(restID);
+                    if (original.Equals(rest))
+                    {
+                        // It's the same so just go back to the Index without updating the database
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        // The Restaurant's details have been changed so we need to update the database
+                        rest.RestaurantID = restID; // Making sure the ID is the right one
+                        func.UpdateRestaurant(rest);
+
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
-                {
-                    // The Restaurant's details have been changed so we need to update the database
-                    rest.RestaurantID = restID; // Making sure the ID is the right one
-                    func.UpdateRestaurant(rest);
-
                     return RedirectToAction("Index");
-                }
             }
             catch (Exception ex)
             {
@@ -221,6 +234,45 @@ namespace Project1.Web.Controllers
                 logger.Error(ex.Message);
             }
             return View("Index", restaurants);
+        }
+
+        [NonAction]
+        public bool isValid(PLC.Restaurant rest)
+        {
+            Regex nameRegex = new Regex(@"^[^A-Za-z0-9.']+$");
+            Regex addressRegex = new Regex(@"^[^A-Za-z0-9.']+$");
+            Regex cityRegex = new Regex(@"^[^A-Za-z]+$");
+            List<string> states = new List<string>()
+            {
+                "Alaska","Alabama","Arkansas","Arizona","California","Colorado","Connecticut","Delaware",
+                "Florida","Georgia","Hawaii","Iowa","Idaho","Illinois","Indiana","Kansas","Kentucky","Louisiana",
+                "Massachusetts","Maryland","Maine","Michigan","Minnesota","Missouri","Mississippi","Montana",
+                "North Carolina","North Dakota","Nebraska","New Hampshire","New Jersey","New Mexico","Nevada",
+                "New York","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota",
+                "Tennessee","Texas","Utah","Virginia","Vermont","Washington","Wisconsin","West Virginia","Wyoming"
+            };
+            if (nameRegex.Matches(rest.Name).Count > 0)
+            {
+                return false; // Invalid name is passed to the model
+            }
+            else if (addressRegex.Matches(rest.Address).Count > 0)
+            {
+                return false; // Invalid address
+            }
+            else if (cityRegex.Matches(rest.City).Count > 0)
+            {
+                return false; // Invalid city
+            }
+            else if (!states.Contains(rest.State))
+            {
+                return false;
+            }
+            else if (rest.Zipcode <= 10000 && rest.Zipcode > 99999) // Zipcode should be 5 digits between 10000-99999 no extended zipcodes
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public ActionResult AboutUs()
