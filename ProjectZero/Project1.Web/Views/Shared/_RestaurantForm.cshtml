@@ -41,7 +41,7 @@
         @Html.DropDownListFor(Model => Model.State, new SelectList(states), new { htmlattributes = new { required = "required" } })@Html.ValidationMessageFor(Model => Model.State)
 
         @Html.LabelFor(Model => Model.Zipcode)
-        @Html.EditorFor(Model => Model.Zipcode, new { htmlattributes = new { type = "number", min = "0", maxlength = "5", placeholder = "Enter Zipcode", pattern = "[1-9][0-9]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Zipcode)
+        @Html.EditorFor(Model => Model.Zipcode, new { htmlattributes = new { type = "number", min = "0", maxlength = "5", placeholder = "Enter Zipcode", pattern = "[1-9][0-9]+{5}", required = "required" } })@Html.ValidationMessageFor(Model => Model.Zipcode)
 
         @if (@ViewBag.ActionMethod == "Edit")
         {
