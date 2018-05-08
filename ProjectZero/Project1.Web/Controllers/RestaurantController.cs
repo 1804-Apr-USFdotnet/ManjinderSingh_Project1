@@ -267,7 +267,7 @@ namespace Project1.Web.Controllers
             {
                 return false;
             }
-            else if (rest.Zipcode <= 10000 && rest.Zipcode > 99999) // Zipcode should be 5 digits between 10000-99999 no extended zipcodes
+            else if (rest.Zipcode < 1 || rest.Zipcode > 99999) // Zipcode should be 5 digits between 00001-99999 no extended zipcodes
             {
                 return false;
             }
