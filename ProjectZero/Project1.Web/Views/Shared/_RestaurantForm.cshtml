@@ -29,10 +29,10 @@
     {
     <pre>
         @Html.LabelFor(Model => Model.Name)
-        @Html.EditorFor(Model => Model.Name, new { htmlattributes = new { placeholder = "Enter Name", required = "required" } })@Html.ValidationMessageFor(Model => Model.Name)
+        @Html.EditorFor(Model => Model.Name, new { htmlattributes = new { placeholder = "Enter Name", required = "required", title = "Please enter the restaurant's name." } })@Html.ValidationMessageFor(Model => Model.Name)
 
         @Html.LabelFor(Model => Model.Address)
-        @Html.EditorFor(Model => Model.Address, new { htmlattributes = new { placeholder = "Enter Address", pattern = "[1-9][0-9]+[ ][A-Za-z.' ]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.Address)
+        @Html.EditorFor(Model => Model.Address, new { htmlattributes = new { placeholder = "Enter Address", pattern = "[1-9][0-9]+[ ][A-Za-z.' ]+", title = "Please enter a valid street address.", required = "required" } })@Html.ValidationMessageFor(Model => Model.Address)
 
         @Html.LabelFor(Model => Model.City)
         @Html.EditorFor(Model => Model.City, new { htmlattributes = new { placeholder = "Enter City", pattern = "[A-Za-z]+", required = "required" } })@Html.ValidationMessageFor(Model => Model.City)
@@ -45,11 +45,13 @@
 
         @if (@ViewBag.ActionMethod == "Edit")
         {
-            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, new { rest = Model, restID = Model.RestaurantID})'" />
+    <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, new { rest = Model, restID = Model.RestaurantID})'" />
+
         }
         else
         {
-            <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, Model)'" />
+    <input type="submit" value="@ViewBag.ActionMethod" onclick="location.href='@Url.Action(ViewBag.ActionMethod, Model)'" />
+
         }
 </pre>
     }

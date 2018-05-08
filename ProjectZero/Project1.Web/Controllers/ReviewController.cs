@@ -66,24 +66,24 @@ namespace Project1.Web.Controllers
 
         // POST: Review/Edit/5
         [HttpPost]
-        public ActionResult Edit(PLC.Review rev, int restID)
+        public ActionResult Edit(PLC.Review rev, Nullable<int> rID)
         {
             PLC.Restaurant rest = new PLC.Restaurant();
             try
             {
+                if (func == null)
+                    func = new PLC.Functionality();
+
+                rest = func.GetRestaurant(rev.RestaurantID);
+
                 if (isValid(rev))
                 {
-                    if (func == null)
-                        func = new PLC.Functionality();
-
-                    rest = func.GetRestaurant(restID);
-
-                    func.UpdateReview(restID, rev);
+                    func.UpdateReview(rev.RestaurantID, rev);
 
                     return RedirectToAction("Details", "Restaurant", rest);
                 }
 
-                return RedirectToAction("Index", "Restaurant");
+                return RedirectToAction("Details", "Restaurant", rest);
             }
             catch (Exception ex)
             {

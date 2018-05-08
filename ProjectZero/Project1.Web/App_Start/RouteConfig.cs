@@ -18,6 +18,12 @@ namespace Project1.Web
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Restaurant", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "EditReview",
+                url: "Review/Edit/{rev}/{rID}",
+                defaults: new { controller = "Review", action = "Edit", rev = UrlParameter.Optional, rID = UrlParameter.Optional }
+            );
         }
     }
 }
