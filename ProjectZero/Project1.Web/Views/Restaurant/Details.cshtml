@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ProjectZero.Libraries.Classes.Review>
 
-@{ 
+@{
     ViewBag.Title = "All Reviews";
 }
 
@@ -19,18 +19,21 @@
         <tbody>
             @foreach (var review in Model)
             {
-                <tr style="border:2px solid black">
-                    <td style="border: 2px solid black; text-align:center;">@review.Author</td>
-                    <td style="border: 2px solid black; text-align:center;">@review.Rating.ToString()</td> <!-- The rating should be displayed as decimal value instead of a double -->
-                    <td>
-                        <a href='@Url.Action("Edit", "Review", review)'>
-                            <img style="width:24px" src="~/Content/Images/Edit.png" />
-                        </a>
-                        <a href='@Url.Action("Delete", "Review", review)'>
-                            <img style="width:24px" src="~/Content/Images/Trash.png" />
-                        </a>
-                    </td>
-                </tr>
+                if (review.Author != "")
+                {
+                    <tr style="border:2px solid black">
+                        <td style="border: 2px solid black; text-align:center;">@review.Author</td>
+                        <td style="border: 2px solid black; text-align:center;">@review.Rating.ToString()</td> <!-- The rating should be displayed as decimal value instead of a double -->
+                        <td>
+                            <a href='@Url.Action("Edit", "Review", review)'>
+                                <img style="width:24px" src="~/Content/Images/Edit.png" />
+                            </a>
+                            <a href='@Url.Action("Delete", "Review", review)'>
+                                <img style="width:24px" src="~/Content/Images/Trash.png" />
+                            </a>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
